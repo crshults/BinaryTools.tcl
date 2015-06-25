@@ -1,4 +1,6 @@
-proc convert_to_bit_list {input} {
+package provide binary_tools 0.0.2
+
+proc convert_binary_to_bit_list {input} {
     binary scan $input B* bit_string
     split $bit_string ""
 }
@@ -16,9 +18,9 @@ proc invert_bit_list {bit_list} {
 package require list_tools
 
 proc bassign {input fields_and_lengths} {
-    set bit_list [convert_to_bit_list $input]
+    set bit_list [convert_binary_to_bit_list $input]
     foreach {field length} $fields_and_lengths {
-        uplevel "set $field [join [lpop bit_list $length] ""]"
+        uplevel "scan [join [lpop bit_list $length] ""] %b $field"
     }
     return [binary format B* [join $bit_list ""]]
 }
